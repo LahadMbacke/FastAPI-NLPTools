@@ -1,9 +1,11 @@
 from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
-from app import ner
+from fastapi.responses import HTMLResponse  
+import ner
 
 
 app = FastAPI()
 
-# Routes pour NER
-app.include_router(ner.router, prefix="/ner", tags=["NER"])
+@app.get("/ner")
+def get_ner(text: str):
+    return ner.ner_spacy(text)
+    
