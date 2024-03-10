@@ -14,10 +14,17 @@
 
     <script>
         document.getElementById("nerForm").addEventListener("submit", async function(event) {
-            event.preventDefault(); // Empêche le comportement par défaut du formulaire
+            event.preventDefault(); // Prevents the default form behavior
             const text = document.getElementById("textInput").value;
-            const response = await fetch("/ner?text=" + encodeURIComponent(text));
+            const response = await fetch("/ner", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({text: text})
+            });
             const htmlContent = await response.text();
+            console.log(htmlContent);  // Logs the response content in the console
             document.getElementById("results").innerHTML = htmlContent;
         });
     </script>
