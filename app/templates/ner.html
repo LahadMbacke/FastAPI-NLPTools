@@ -10,23 +10,26 @@
         <textarea id="textInput" rows="4" cols="50"></textarea><br>
         <button type="submit">Detect Entities</button>
     </form>
-    <div id="results"></div>
+    <div id="results">{{ html_content }}</div>
 
     <script>
         document.getElementById("nerForm").addEventListener("submit", async function(event) {
-            event.preventDefault(); // Prevents the default form behavior
+            event.preventDefault(); // Empêche le comportement par défaut du formulaire
             const text = document.getElementById("textInput").value;
             const response = await fetch("/ner", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({text: text})
+                body: JSON.stringify({ text: text })
             });
             const htmlContent = await response.text();
-            console.log(htmlContent);  // Logs the response content in the console
+            const formattedContent = htmlContent.replace(/\n/g, "<br>");
+            console.log(formattedContent);  // Affiche le contenu de la réponse dans la console
             document.getElementById("results").innerHTML = htmlContent;
+            
         });
     </script>
+    
 </body>
 </html>
